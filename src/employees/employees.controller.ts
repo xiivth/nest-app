@@ -6,11 +6,12 @@ import {
   Param,
   Post,
   Query,
+  Version,
 } from '@nestjs/common';
 import { GlobalHelpersService } from 'src/global-helpers/global-helpers.service';
 import { UtilsService } from 'src/shared/utils/utils.service';
 
-@Controller('employees')
+@Controller({ path: 'employees', version: '1' })
 export class EmployeesController {
   constructor(
     private readonly utilsService: UtilsService,
@@ -34,11 +35,17 @@ export class EmployeesController {
 
   @Get('search')
   searchEmployee(@Query() query: any): string {
-    return `This search action returns #${query.name} ${query.age}`;
+    return `This query action returns #${query.name} age ${query.age}`;
+  }
+
+  @Version('2')
+  @Get('search')
+  searchEmployeeV2(@Query() query: any): string {
+    return `This query v2 action returns #${query.name} salary ${query.salary}`;
   }
 
   @Get(':id')
   findOne(@Param() params: any): string {
-    return `This action returns a #${params.id} employee`;
+    return `This param action returns an employee #${params.id}`;
   }
 }
