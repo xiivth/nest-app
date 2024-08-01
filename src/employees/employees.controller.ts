@@ -1,4 +1,4 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, HttpCode, Post } from '@nestjs/common';
 import { GlobalHelpersService } from 'src/global-helpers/global-helpers.service';
 import { UtilsService } from 'src/shared/utils/utils.service';
 
@@ -16,5 +16,11 @@ export class EmployeesController {
       date: this.utilsService.getServerDate(),
       thaiDate: this.globalHelpersService.getThaiDate(),
     };
+  }
+
+  @Post()
+  @HttpCode(201)
+  create() {
+    return 'create employee';
   }
 }
