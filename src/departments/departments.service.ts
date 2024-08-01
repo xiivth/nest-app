@@ -16,7 +16,9 @@ export class DepartmentsService {
   }
 
   async findAll() {
-    return await this.prismaService.department.findMany();
+    return await this.prismaService.department.findMany({
+      orderBy: { department_id: 'desc' },
+    });
   }
 
   findOne(id: number) {
