@@ -1,4 +1,12 @@
-import { Controller, Get, HttpCode, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpCode,
+  Param,
+  Post,
+  Query,
+} from '@nestjs/common';
 import { GlobalHelpersService } from 'src/global-helpers/global-helpers.service';
 import { UtilsService } from 'src/shared/utils/utils.service';
 
@@ -20,7 +28,17 @@ export class EmployeesController {
 
   @Post()
   @HttpCode(201)
-  create() {
-    return 'create employee';
+  create(@Body() createEmployeeDto: any) {
+    return 'create employee ' + createEmployeeDto.name;
+  }
+
+  @Get('search')
+  searchEmployee(@Query() query: any): string {
+    return `This search action returns #${query.name} ${query.age}`;
+  }
+
+  @Get(':id')
+  findOne(@Param() params: any): string {
+    return `This action returns a #${params.id} employee`;
   }
 }
