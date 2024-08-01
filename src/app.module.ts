@@ -6,6 +6,7 @@ import { EmployeesModule } from './employees/employees.module';
 import { UtilsModule } from './shared/utils/utils.module';
 import { GlobalHelpersModule } from './global-helpers/global-helpers.module';
 import { DepartmentsModule } from './departments/departments.module';
+import { PrismaModule } from './shared/prisma/prisma.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { DepartmentsModule } from './departments/departments.module';
     UtilsModule,
     GlobalHelpersModule,
     DepartmentsModule,
+    PrismaModule,
   ],
   controllers: [AppController],
   providers: [AppService],

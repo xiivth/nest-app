@@ -6,15 +6,17 @@ import {
 } from '@nestjs/common';
 import { CreateDepartmentDto } from './dto/create-department.dto';
 import { UpdateDepartmentDto } from './dto/update-department.dto';
+import { PrismaService } from 'src/shared/prisma/prisma.service';
 
 @Injectable()
 export class DepartmentsService {
+  constructor(private readonly prismaService: PrismaService) {}
   create(createDepartmentDto: CreateDepartmentDto) {
     return 'This action adds a new department';
   }
 
-  findAll() {
-    return `This action returns all departments`;
+  async findAll() {
+    return await this.prismaService.department.findMany();
   }
 
   findOne(id: number) {
