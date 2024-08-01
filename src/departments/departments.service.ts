@@ -1,4 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import {
+  HttpException,
+  HttpStatus,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateDepartmentDto } from './dto/create-department.dto';
 import { UpdateDepartmentDto } from './dto/update-department.dto';
 
@@ -13,6 +18,12 @@ export class DepartmentsService {
   }
 
   findOne(id: number) {
+    if (id === 2) {
+      throw new NotFoundException('ไม่พบรหัส 2');
+    }
+    if (id === 3) {
+      throw new HttpException('ไม่พบรหัส 3', HttpStatus.NOT_FOUND);
+    }
     return `This action returns a #${id} department`;
   }
 

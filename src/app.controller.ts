@@ -7,7 +7,11 @@ export class AppController {
 
   @Get()
   getHomeAPI() {
-    return { message: 'Nest API Running...' };
+    return {
+      message: 'Nest API Running...',
+      app_name: process.env.APP_NAME,
+      app_version: process.env.API_VERSION,
+    };
   }
 
   @Get('/hello')
