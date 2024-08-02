@@ -1,6 +1,7 @@
 import { Body, Controller, HttpCode, Post } from '@nestjs/common';
 import { AuthsService } from './auths.service';
 import { RegisterDto } from './dto/register.dto';
+import { LoginDto } from './dto/login.dto';
 
 @Controller({ path: 'auths', version: '1' })
 export class AuthsController {
@@ -10,6 +11,12 @@ export class AuthsController {
   @HttpCode(201)
   async register(@Body() registerDto: RegisterDto) {
     await this.authsService.register(registerDto);
-    return { meesge: `${registerDto.email} ลงทะเบียนสำเร็จ` };
+    return { message: `${registerDto.email} ลงทะเบียนสำเร็จ` };
+  }
+
+  @Post('login')
+  @HttpCode(200)
+  login(@Body() loginDto: LoginDto) {
+    return this.authsService.login(loginDto);
   }
 }
