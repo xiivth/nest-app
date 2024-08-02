@@ -2,7 +2,7 @@ import {
   BadRequestException,
   ConflictException,
   HttpException,
-  HttpStatus,
+  // HttpStatus,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
@@ -53,8 +53,12 @@ export class DepartmentsService {
   }
 
   async update(id: string, updateDepartmentDto: UpdateDepartmentDto) {
-    // const department = await this.prismaService.department.update({where:{department_id:id},data:{});
-    return updateDepartmentDto;
+    await this.findOne(id);
+    const department = await this.prismaService.department.update({
+      data: updateDepartmentDto,
+      where: { department_id: id },
+    });
+    return department;
   }
 
   async remove(id: string) {
@@ -63,5 +67,10 @@ export class DepartmentsService {
       where: { department_id: id },
     });
     return department;
+  }
+
+  async findAllBySQL() {
+    return await this.prismaService
+      .$queryRaw`select * from Department order by department_id`;
   }
 }

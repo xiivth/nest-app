@@ -10,21 +10,24 @@ import {
 } from '@nestjs/common';
 import { GlobalHelpersService } from 'src/global-helpers/global-helpers.service';
 import { UtilsService } from 'src/shared/utils/utils.service';
+import { EmployeesService } from './employees.service';
 
 @Controller({ path: 'employees', version: '1' })
 export class EmployeesController {
   constructor(
-    private readonly utilsService: UtilsService,
-    private readonly globalHelpersService: GlobalHelpersService,
+    // private readonly utilsService: UtilsService,
+    // private readonly globalHelpersService: GlobalHelpersService,
+    private readonly employeesService: EmployeesService,
   ) {}
 
   @Get()
   findAll() {
-    return {
-      message: 'all employees',
-      date: this.utilsService.getServerDate(),
-      thaiDate: this.globalHelpersService.getThaiDate(),
-    };
+    return this.employeesService.findAll();
+    // return {
+    //   message: 'all employees',
+    //   date: this.utilsService.getServerDate(),
+    //   thaiDate: this.globalHelpersService.getThaiDate(),
+    // };
   }
 
   @Post()

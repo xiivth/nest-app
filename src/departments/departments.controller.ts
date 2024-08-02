@@ -26,6 +26,11 @@ export class DepartmentsController {
     return this.departmentsService.findAll();
   }
 
+  @Get('sql')
+  findAllBySQL() {
+    return this.departmentsService.findAllBySQL();
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.departmentsService.findOne(id);
