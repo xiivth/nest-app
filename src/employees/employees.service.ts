@@ -25,4 +25,24 @@ export class EmployeesService {
     const countEmp = await this.prismaService.employee.count();
     return { total: countEmp, length: emp.length, data: emp };
   }
+
+  async findAllWithPagination(page = 1, pageSize = 10) {
+    const emp = await this.prismaService.employee.findMany({
+      select: {
+        emp_no: true,
+        first_name: true,
+        last_name: true,
+        hire_date: true,
+        Department: {
+          select: {
+            department_name: true,
+          },
+        },
+      },
+      skip: (page - 1) * pageSize,
+      take: pageSize,
+    });
+    const countEmp = await this.prismaService.employee.count();
+    return { total: countEmp, length: emp.length, data: emp };
+  }
 }

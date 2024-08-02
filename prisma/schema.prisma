@@ -25,3 +25,10 @@ model Employee {
 
   @@index([department_id], map: "employee_fk1")
 }
+
+model User {
+  id Int @id @default(autoincrement())
+  email String @unique
+  password String @db.VarChar(255)
+  permission String @default("member")
+}

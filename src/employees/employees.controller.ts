@@ -8,8 +8,8 @@ import {
   Query,
   Version,
 } from '@nestjs/common';
-import { GlobalHelpersService } from 'src/global-helpers/global-helpers.service';
-import { UtilsService } from 'src/shared/utils/utils.service';
+// import { GlobalHelpersService } from 'src/global-helpers/global-helpers.service';
+// import { UtilsService } from 'src/shared/utils/utils.service';
 import { EmployeesService } from './employees.service';
 
 @Controller({ path: 'employees', version: '1' })
@@ -45,6 +45,14 @@ export class EmployeesController {
   @Get('search')
   searchEmployeeV2(@Query() query: any): string {
     return `This query v2 action returns #${query.name} salary ${query.salary}`;
+  }
+
+  @Get('pagination')
+  findAllWith(@Query() query: any) {
+    return this.employeesService.findAllWithPagination(
+      Number(query.page),
+      Number(query.pageSize),
+    );
   }
 
   @Get(':id')

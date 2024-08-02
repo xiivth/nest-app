@@ -7,6 +7,7 @@ import { UtilsModule } from './shared/utils/utils.module';
 import { GlobalHelpersModule } from './global-helpers/global-helpers.module';
 import { DepartmentsModule } from './departments/departments.module';
 import { PrismaModule } from './shared/prisma/prisma.module';
+import { AuthsModule } from './auths/auths.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { PrismaModule } from './shared/prisma/prisma.module';
     GlobalHelpersModule,
     DepartmentsModule,
     PrismaModule,
+    AuthsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
