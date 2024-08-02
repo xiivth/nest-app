@@ -1,4 +1,6 @@
 import {
+  BadRequestException,
+  ConflictException,
   HttpException,
   HttpStatus,
   Injectable,
@@ -7,12 +9,31 @@ import {
 import { CreateDepartmentDto } from './dto/create-department.dto';
 import { UpdateDepartmentDto } from './dto/update-department.dto';
 import { PrismaService } from 'src/shared/prisma/prisma.service';
+import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class DepartmentsService {
   constructor(private readonly prismaService: PrismaService) {}
-  create(createDepartmentDto: CreateDepartmentDto) {
-    return 'This action adds a new department';
+
+  async create(createDepartmentDto: CreateDepartmentDto) {
+    try {
+      const department = await this.prismaService.department.create({
+        data: createDepartmentDto,
+      });
+      return department;
+    } catch (e) {
+      if (e instanceof Prisma.PrismaClientKnownRequestError) {
+        if (e.code === 'P2000') {
+          throw new BadRequestException(
+            'รหัสแผนก ต้องไม่เกิน 2 ตัวอักษร โปรดลองใหม่',
+          );
+        }
+        if (e.code === 'P2002') {
+          throw new ConflictException('ข้อมูลซ้ำ โปรดลองใหม่');
+        }
+      }
+      throw new HttpException(e, 500);
+    }
   }
 
   async findAll() {
@@ -21,21 +42,26 @@ export class DepartmentsService {
     });
   }
 
-  findOne(id: number) {
-    if (id === 2) {
-      throw new NotFoundException('ไม่พบรหัส 2');
+  async findOne(id: string) {
+    const department = await this.prismaService.department.findUnique({
+      where: { department_id: id },
+    });
+    if (!department) {
+      throw new NotFoundException('ไม่พบข้อมูลในระบบ');
     }
-    if (id === 3) {
-      throw new HttpException('ไม่พบรหัส 3', HttpStatus.NOT_FOUND);
-    }
-    return `This action returns a #${id} department`;
+    return department;
   }
 
-  update(id: number, updateDepartmentDto: UpdateDepartmentDto) {
-    return `This action updates a #${id} department`;
+  async update(id: string, updateDepartmentDto: UpdateDepartmentDto) {
+    // const department = await this.prismaService.department.update({where:{department_id:id},data:{});
+    return updateDepartmentDto;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} department`;
+  async remove(id: string) {
+    await this.findOne(id);
+    const department = await this.prismaService.department.delete({
+      where: { department_id: id },
+    });
+    return department;
   }
 }
