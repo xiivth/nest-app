@@ -45,6 +45,7 @@ export class DepartmentsService {
   async findOne(id: string) {
     const department = await this.prismaService.department.findUnique({
       where: { department_id: id },
+      include: { _count: true, Employee: true },
     });
     if (!department) {
       throw new NotFoundException('ไม่พบข้อมูลในระบบ');

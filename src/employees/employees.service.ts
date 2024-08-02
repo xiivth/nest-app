@@ -6,9 +6,23 @@ export class EmployeesService {
   constructor(private readonly prismaService: PrismaService) {}
 
   async findAll() {
+    // const emp = await this.prismaService.employee.findMany({
+    //   include: { Department: true },
+    // });
     const emp = await this.prismaService.employee.findMany({
-      include: { Department: true },
+      select: {
+        emp_no: true,
+        first_name: true,
+        last_name: true,
+        hire_date: true,
+        Department: {
+          select: {
+            department_name: true,
+          },
+        },
+      },
     });
-    return emp;
+    const countEmp = await this.prismaService.employee.count();
+    return { total: countEmp, length: emp.length, data: emp };
   }
 }
