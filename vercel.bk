@@ -15,3 +15,22 @@
     }
   ]
 }
+
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "dist/main.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "dist/main.js"
+    }
+  ]
+}
+
+    "postinstall": "npx @nestjs/cli build && prisma generate"
+
