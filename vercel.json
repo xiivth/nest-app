@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "buildComand": "prisma generate && node dist/main.js",
+  "buildCommand": "prisma generate && node dist/main.js",
   "rewrites": [
     {
       "source": "/(.*)",
