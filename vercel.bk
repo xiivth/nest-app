@@ -1,0 +1,17 @@
+{
+  "version": 2,
+  "installCommand": "npm install && prisma generate",
+  "buildComand": "prisma generate && node dist/main.js"
+  "builds": [
+    {
+      "src": "dist/main.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "dist/main.js"
+    }
+  ]
+}
